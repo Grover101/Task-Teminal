@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.1"
   }
 }
