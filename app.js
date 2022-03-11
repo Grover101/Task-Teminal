@@ -11,9 +11,7 @@ const main = async () => {
     const tareas = new Tareas()
 
     const tareasDB = leerDB()
-
-    console.table(tareasDB)
-    await pause()
+    if (tareasDB) tareas.cargarTareasFromArray(tareasDB)
 
     do {
         opt = await inquirerMenu()
