@@ -21,11 +21,10 @@ const main = async () => {
                 // crear tarea
                 const desc = await leerInput('Descripcion:')
                 tareas.createTarea(desc)
-                // console.log(`Creando tarea: ${desc}`)
                 break
 
             case '2':
-                console.table(tareas.listadoArr)
+                tareas.listadoCompleto()
                 break
         }
 
