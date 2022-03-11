@@ -20,7 +20,7 @@ const main = async () => {
                 break
 
             case '2':
-                console.table(tareas._listado)
+                console.table(tareas.listadoArr)
                 break
         }
 
