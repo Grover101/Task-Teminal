@@ -1,8 +1,15 @@
 const fs = require('fs')
+const archivo = './db/data.json'
 
 const guardarDB = data => {
-    const archivo = './db/data.json'
     fs.writeFileSync(archivo, JSON.stringify(data, null, 2))
 }
 
-module.exports = { guardarDB }
+const leerDB = () => {
+    if (fs.existsSync(archivo)) {
+        return JSON.parse(fs.readFileSync(archivo, 'utf-8'))
+    }
+    return null
+}
+
+module.exports = { guardarDB, leerDB }
