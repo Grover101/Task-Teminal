@@ -5,7 +5,8 @@ const {
     inquirerMenu,
     pause,
     leerInput,
-    listadoTareasBorrar
+    listadoTareasBorrar,
+    confirmar
 } = require('./helpers/inquirer')
 const Tareas = require('./models/tareas')
 
@@ -40,7 +41,12 @@ const main = async () => {
                 break
             case '6':
                 const id = await listadoTareasBorrar(tareas.listadoArr)
-                tareas.borrarTarea(id)
+                if (id !== '0') {
+                    const ok = await confirmar(
+                        'Esta seguro de borrar la tarea?'
+                    )
+                    if (ok) tareas.borrarTarea(id)
+                }
                 break
         }
 

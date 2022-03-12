@@ -33,7 +33,7 @@ const preguntas = [
                 name: `${'6.'.green} Borrar Tarea`
             },
             {
-                value: '7',
+                value: '0',
                 name: `${'7.'.green} Salir`
             }
         ]
@@ -88,6 +88,11 @@ const listadoTareasBorrar = async (tareas = []) => {
         }
     })
 
+    choices.unshift({
+        value: '0',
+        name: `${'0.'.green} Cancelar`
+    })
+
     const question = [
         {
             type: 'list',
@@ -101,9 +106,22 @@ const listadoTareasBorrar = async (tareas = []) => {
     return id
 }
 
+const confirmar = async message => {
+    const question = [
+        {
+            type: 'confirm',
+            name: 'ok',
+            message
+        }
+    ]
+
+    const { ok } = await inquirer.prompt(question)
+    return ok
+}
 module.exports = {
     inquirerMenu,
     pause,
     leerInput,
-    listadoTareasBorrar
+    listadoTareasBorrar,
+    confirmar
 }
