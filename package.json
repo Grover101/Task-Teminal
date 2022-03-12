@@ -1,8 +1,11 @@
 {
-  "name": "Tareas-por-Hacer",
+  "name": "task_terminal",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "node app"
+  },
   "dependencies": {
     "colors": "^1.4.0",
     "inquirer": "^8.2.1",

@@ -18,13 +18,17 @@ const main = async () => {
 
         switch (opt) {
             case '1':
-                // crear tarea
                 const desc = await leerInput('Descripcion:')
                 tareas.createTarea(desc)
                 break
-
             case '2':
                 tareas.listadoCompleto()
+                break
+            case '3':
+                tareas.listarPendientesCompletadas()
+                break
+            case '4':
+                tareas.listarPendientesCompletadas(false)
                 break
         }
 

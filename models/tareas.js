@@ -35,6 +35,22 @@ class Tareas {
             console.log(`${id}. ${desc} :: ${estado}`)
         })
     }
+
+    listarPendientesCompletadas(completadas = true) {
+        let i = 1
+        console.log()
+        this.listadoArr.forEach(tarea => {
+            const { desc, completadoEn } = tarea
+            const estado = completadoEn ? 'Completada'.green : 'Pendiente'.red
+            if (completadas) {
+                if (completadoEn)
+                    console.log(`${(i++ + '.').green} ${desc} :: ${estado}`)
+            } else {
+                if (!completadoEn)
+                    console.log(`${(i++ + '.').green} ${desc} :: ${estado}`)
+            }
+        })
+    }
 }
 
 module.exports = Tareas
