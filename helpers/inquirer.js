@@ -1,53 +1,51 @@
 const inquirer = require('inquirer')
 require('colors')
 
-const preguntas = [
-    {
-        type: 'list',
-        name: 'opcion',
-        message: 'Que desea hacer?',
-        choices: [
-            {
-                value: '1',
-                name: `${'1.'.green} Crear Tarea`
-            },
-            {
-                value: '2',
-                name: `${'2.'.green} Listar Tareas`
-            },
-            {
-                value: '3',
-                name: `${'3.'.green} Listar Tareas Completadas`
-            },
-            {
-                value: '4',
-                name: `${'4.'.green} Listar Tareas Pendientes`
-            },
-            {
-                value: '5',
-                name: `${'5.'.green} Completar Tarea(s)`
-            },
-            {
-                value: '6',
-
-                name: `${'6.'.green} Borrar Tarea`
-            },
-            {
-                value: '0',
-                name: `${'7.'.green} Salir`
-            }
-        ]
-    }
-]
-
-const inquirerMenu = async () => {
+const listMenu = async () => {
+    const question = [
+        {
+            type: 'list',
+            name: 'option',
+            message: 'What do you want to do?',
+            choices: [
+                {
+                    value: '1',
+                    name: `${'1.'.green} Create Task`
+                },
+                {
+                    value: '2',
+                    name: `${'2.'.green} List All Tasks`
+                },
+                {
+                    value: '3',
+                    name: `${'3.'.green} List Completed Tasks`
+                },
+                {
+                    value: '4',
+                    name: `${'4.'.green} List Pending Tasks`
+                },
+                {
+                    value: '5',
+                    name: `${'5.'.green} Complete Task(s)`
+                },
+                {
+                    value: '6',
+                    name: `${'6.'.green} Delete Task`
+                },
+                {
+                    value: '0',
+                    name: `${'7.'.green} Exit`
+                }
+            ]
+        }
+    ]
     console.clear()
-    console.log('=========================='.green)
-    console.log('  Seleccione una opcion'.white)
-    console.log('==========================\n'.green)
+    console.log('================================'.green)
+    console.log('\tSelect an option'.italic.bold.white)
+    console.log('================================\n'.green)
 
-    const { opcion } = await inquirer.prompt(preguntas)
-    return opcion
+    const { option } = await inquirer.prompt(question)
+    return option
 }
 
 const pause = async () => {
@@ -55,49 +53,49 @@ const pause = async () => {
         {
             type: 'input',
             name: 'enter',
-            message: `Presione ${'ENTER'.green} para continuar`
+            message: `Press ${'ENTER'.green} to continue`
         }
     ]
-    console.log('\n')
+    console.log()
     await inquirer.prompt(question)
 }
 
-const leerInput = async message => {
+const readInput = async message => {
     const question = [
         {
             type: 'input',
-            name: 'desc',
+            name: 'description',
             message,
             validate(value) {
-                if (value.length === 0) return 'Por favor ingrese un valor'
+                if (value.length === 0) return 'Please enter a value'
                 return true
             }
         }
     ]
 
-    const { desc } = await inquirer.prompt(question)
-    return desc
+    const { description } = await inquirer.prompt(question)
+    return description
 }
 
-const listadoTareasBorrar = async (tareas = []) => {
-    const choices = tareas.map((tarea, index) => {
+const listTasksDelete = async (tasks = []) => {
+    const choices = tasks.map((task, index) => {
         const i = `${index + 1}.`.green
         return {
-            value: tarea.id,
-            name: `${i} ${tarea.desc}`
+            value: task.id,
+            name: `${i} ${task.description}`
         }
     })
 
     choices.unshift({
         value: '0',
-        name: `${'0.'.green} Cancelar`
+        name: `${'0.'.green} Cancel`
     })
 
     const question = [
         {
             type: 'list',
             name: 'id',
-            message: 'Borrar',
+            message: 'Delete Task',
             choices
         }
     ]
@@ -106,7 +104,7 @@ const listadoTareasBorrar = async (tareas = []) => {
     return id
 }
 
-const confirmar = async message => {
+const confirm = async message => {
     const question = [
         {
             type: 'confirm',
@@ -119,13 +117,13 @@ const confirmar = async message => {
     return ok
 }
 
-const mostrarListadoCheckList = async (tareas = []) => {
-    const choices = tareas.map((tarea, index) => {
+const showListSelectCompleted = async (tasks = []) => {
+    const choices = tasks.map((task, index) => {
         const i = `${index + 1}.`.green
         return {
-            value: tarea.id,
-            name: ` ${i} ${tarea.desc}`,
-            checked: tarea.completadoEn ? true : false
+            value: task.id,
+            name: ` ${i} ${task.description}`,
+            checked: task.complete ? true : false
         }
     })
 
@@ -133,7 +131,7 @@ const mostrarListadoCheckList = async (tareas = []) => {
         {
             type: 'checkbox',
             name: 'ids',
-            message: 'Selecciones',
+            message: 'Selections',
             choices
         }
     ]
@@ -143,10 +141,10 @@ const mostrarListadoCheckList = async (tareas = []) => {
 }
 
 module.exports = {
-    inquirerMenu,
+    listMenu,
     pause,
-    leerInput,
-    listadoTareasBorrar,
-    confirmar,
-    mostrarListadoCheckList
+    readInput,
+    listTasksDelete,
+    confirm,
+    showListSelectCompleted
 }

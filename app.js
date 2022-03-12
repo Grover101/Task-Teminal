@@ -1,58 +1,56 @@
 require('colors')
 
-const { guardarDB, leerDB } = require('./helpers/guardarArchivo')
+const { saveDB, readDB } = require('./helpers/saveFile')
 const {
-    inquirerMenu,
+    listMenu,
     pause,
-    leerInput,
-    listadoTareasBorrar,
-    confirmar,
-    mostrarListadoCheckList
+    readInput,
+    confirm,
+    listTasksDelete,
+    showListSelectCompleted
 } = require('./helpers/inquirer')
-const Tareas = require('./models/tareas')
+const Tasks = require('./models/tasks')
 
 console.clear()
 
 const main = async () => {
     let opt = ''
-    const tareas = new Tareas()
+    const tasks = new Tasks()
 
-    const tareasDB = leerDB()
-    if (tareasDB) tareas.cargarTareasFromArray(tareasDB)
+    const tasksDB = readDB()
+    if (tasksDB) tasks.loadTasksDB(tasksDB)
 
     do {
-        opt = await inquirerMenu()
+        opt = await listMenu()
 
         switch (opt) {
             case '1':
-                const desc = await leerInput('Descripcion:')
-                tareas.createTarea(desc)
+                const desc = await readInput('Description:')
+                tasks.createTask(desc)
                 break
             case '2':
-                tareas.listadoCompleto()
+                tasks.listAllTasks()
                 break
             case '3':
-                tareas.listarPendientesCompletadas()
+                tasks.listCompletedPending()
                 break
             case '4':
-                tareas.listarPendientesCompletadas(false)
+                tasks.listCompletedPending(false)
                 break
             case '5':
-                const ids = await mostrarListadoCheckList(tareas.listadoArr)
-                tareas.toggleCompletadas(ids)
+                const ids = await showListSelectCompleted(tasks.listArray)
+                tasks.markTasksComplete(ids)
                 break
             case '6':
-                const id = await listadoTareasBorrar(tareas.listadoArr)
+                const id = await listTasksDelete(tasks.listArray)
                 if (id !== '0') {
-                    const ok = await confirmar(
-                        'Esta seguro de borrar la tarea?'
-                    )
-                    if (ok) tareas.borrarTarea(id)
+                    const ok = await confirm('Are you sure to delete?')
+                    if (ok) tasks.deleteTask(id)
                 }
                 break
         }
 
-        guardarDB(tareas.listadoArr)
+        saveDB(tasks.listArray)
 
         await pause()
     } while (opt !== '0')
